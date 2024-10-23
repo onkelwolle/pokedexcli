@@ -12,6 +12,7 @@ func (c *Client) ListLocations(pageURL *string) (LocationArea, error) {
 		url = *pageURL
 	}
 
+	// check if requestet url is allready in cache, if so, return the value
 	if val, ok := c.cache.Get(url); ok {
 		locationArea := LocationArea{}
 		err := json.Unmarshal(val, &locationArea)

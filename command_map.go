@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func commandMap(cfg *config) error {
+func commandMap(cfg *config, args ...string) error {
 
 	locationsAreas, err := cfg.pokeapiClient.ListLocations(cfg.nextLocationsURL)
 	if err != nil {
@@ -21,7 +21,7 @@ func commandMap(cfg *config) error {
 	return nil
 }
 
-func commandMapb(cfg *config) error {
+func commandMapb(cfg *config, args ...string) error {
 
 	if cfg.prevLocationsURL == nil {
 		return errors.New("no previous locations")
