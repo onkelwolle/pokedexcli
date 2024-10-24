@@ -6,38 +6,38 @@ import (
 	"net/http"
 )
 
-func (c *Client) LocationDetails(locationName string) (LocationDetails, error) {
+func (c *Client) LocationDetails(locationName string) (Location, error) {
 	url := baseUrl + "/location-area/" + locationName
 
 	if val, ok := c.cache.Get(url); ok {
-		locationResp := LocationDetails{}
+		locationResp := Location{}
 		err := json.Unmarshal(val, &locationResp)
 		if err != nil {
-			return LocationDetails{}, err
+			return Location{}, err
 		}
 		return locationResp, nil
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return LocationDetails{}, err
+		return Location{}, err
 	}
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return LocationDetails{}, err
+		return Location{}, err
 	}
 	defer resp.Body.Close()
 
 	dat, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return LocationDetails{}, err
+		return Location{}, err
 	}
 
-	locationResp := LocationDetails{}
+	locationResp := Location{}
 	err = json.Unmarshal(dat, &locationResp)
 	if err != nil {
-		return LocationDetails{}, err
+		return Location{}, err
 	}
 
 	c.cache.Add(url, dat)
